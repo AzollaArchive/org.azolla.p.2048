@@ -53,5 +53,9 @@
 			<groupId>com.google.code.findbugs</groupId>
 			<artifactId>jsr305</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.azolla.open</groupId>
+			<artifactId>org.azolla.open.ling</artifactId>
+		</dependency>
 	</dependencies>
 </project>

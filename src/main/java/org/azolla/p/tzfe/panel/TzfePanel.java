@@ -31,6 +31,28 @@ public class TzfePanel extends JFrame
 
     private TzfePanel()
     {
+        super();
+        initUI();
+        initListener();
+    }
+
+    /**
+     * The coder is very lazy for this initListener method
+     *  void
+     */
+    private void initListener()
+    {
+        //do nothing
+
+    }
+
+    /**
+     * The coder is very lazy for this initUI method
+     *  void
+     */
+    private void initUI()
+    {
+        //do nothing
 
     }
 
