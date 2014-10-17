@@ -6,6 +6,8 @@
  */
 package org.azolla.p.tzfe.startup;
 
+import org.azolla.p.tzfe.panel.TzfePanel;
+
 /**
  * The coder is very lazy for this Startup class
  *
@@ -23,7 +25,8 @@ public class Startup
     public static void main(String[] args)
     {
         //do nothing
-
+        TzfePanel tzfePanel = TzfePanel.single();
+        tzfePanel.setVisible(true);
     }
 
 }

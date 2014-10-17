@@ -28,6 +28,7 @@ public class GridButtonTest
 
     public static void main(String[] args)
     {
+        System.out.println(Math.pow(1, 2));
         System.out.println(Array0.array2String(GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts()));
     }
 

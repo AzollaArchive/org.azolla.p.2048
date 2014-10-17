@@ -10,6 +10,8 @@ import java.awt.Font;
 
 import javax.swing.JButton;
 
+import org.azolla.p.tzfe.cons.ColorCons;
+
 /**
  * The coder is very lazy for this GridButton class
  *
@@ -109,6 +111,7 @@ public class GridButton extends JButton
     public String getText()
     {
         setEnabled(0 == number ? false : true);
+        setBackground(ColorCons.COLOR_MAP.get(number));
         return "" + (0 == number ? "" : number);
     }
 }

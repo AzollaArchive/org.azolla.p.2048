@@ -22,9 +22,9 @@ public class TzfePanel extends JFrame
      */
     private static final long serialVersionUID = 7581667051127144281L;
 
-    private TzfePanel         instance;
+    private static TzfePanel  instance;
 
-    public TzfePanel single()
+    public static TzfePanel single()
     {
         return instance = null == instance ? new TzfePanel() : instance;
     }
