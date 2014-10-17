@@ -6,6 +6,11 @@
  */
 package org.azolla.p.tzfe.startup;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
+import javax.swing.JFrame;
+
 import org.azolla.p.tzfe.panel.TzfePanel;
 
 /**
@@ -26,6 +31,12 @@ public class Startup
     {
         //do nothing
         TzfePanel tzfePanel = TzfePanel.single();
+        tzfePanel.setTitle("2048");
+        tzfePanel.setSize(TzfePanel.W, TzfePanel.H);
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        tzfePanel.setLocation((int) (screen.getWidth() - TzfePanel.W) / 2, (int) (screen.getHeight() - TzfePanel.H) / 2);
+        tzfePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        tzfePanel.setResizable(false);
         tzfePanel.setVisible(true);
     }
 

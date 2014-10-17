@@ -23,7 +23,7 @@ public class ColorCons
 
     static
     {
-        COLOR_MAP.put((int) Math.scalb(0, 0), new Color(128, 128, 128, 0));
+        COLOR_MAP.put((int) Math.scalb(0, 0), new Color(255, 255, 255, 0));
         COLOR_MAP.put((int) Math.scalb(1, 1), new Color(255, 192, 192, 0));
         COLOR_MAP.put((int) Math.scalb(1, 2), new Color(255, 128, 128, 0));
         COLOR_MAP.put((int) Math.scalb(1, 3), new Color(255, 64, 64, 0));

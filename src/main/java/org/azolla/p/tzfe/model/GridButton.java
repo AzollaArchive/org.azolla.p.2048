@@ -7,6 +7,9 @@
 package org.azolla.p.tzfe.model;
 
 import java.awt.Font;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelListener;
 
 import javax.swing.JButton;
 
@@ -39,8 +42,50 @@ public class GridButton extends JButton
     public GridButton()
     {
         //do nothing
+        this(0, 0);
+    }
+
+    public GridButton(int xValue, int yVlaue)
+    {
+        //do nothing
         super();
+        this.xValue = xValue;
+        this.yValue = yVlaue;
+        number = 0;
         setFont(new Font("Courier New", Font.BOLD, 32));
+    }
+
+    /**
+     * @see java.awt.Component#addMouseListener(java.awt.event.MouseListener)
+     * @param l
+     */
+    @Override
+    public synchronized void addMouseListener(MouseListener l)
+    {
+        //do nothing
+        //        super.addMouseListener(l);
+    }
+
+    /**
+     * @see java.awt.Component#addMouseMotionListener(java.awt.event.MouseMotionListener)
+     * @param l
+     */
+    @Override
+    public synchronized void addMouseMotionListener(MouseMotionListener l)
+    {
+        //do nothing
+        //        super.addMouseMotionListener(l);
+    }
+
+    /**
+     * @see java.awt.Component#addMouseWheelListener(java.awt.event.MouseWheelListener)
+     * @param l
+     */
+    @Override
+    public synchronized void addMouseWheelListener(MouseWheelListener l)
+    {
+        //do nothing
+        //        super.addMouseWheelListener(l);
     }
 
     /**
