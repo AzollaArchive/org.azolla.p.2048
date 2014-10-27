@@ -7,6 +7,7 @@
 package org.azolla.p.tzfe.cons;
 
 import java.util.List;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 
@@ -24,5 +25,10 @@ public class NumCons
     {
         NUM_LIST.add((int) Math.scalb(1, 1));
         NUM_LIST.add((int) Math.scalb(1, 2));
+    }
+
+    public static int roundNum()
+    {
+        return NUM_LIST.get(Math.abs(new Random().nextInt()) % NUM_LIST.size());
     }
 }

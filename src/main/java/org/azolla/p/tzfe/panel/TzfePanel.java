@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Random;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.azolla.p.tzfe.cons.NumCons;
@@ -67,18 +68,27 @@ public class TzfePanel extends JFrame
         //do nothing
         addKeyListener(new KeyAdapter()
         {
-            /**
-             * @see java.awt.event.KeyAdapter#keyPressed(java.awt.event.KeyEvent)
-             * @param e
-             */
             @Override
             public void keyPressed(KeyEvent e)
             {
+                //do nothing
                 boolean goodjob = false;
                 //do nothing
                 if(e.getKeyCode() == KeyEvent.VK_UP)
                 {
                     goodjob = up();
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+                {
+                    goodjob = down();
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_LEFT)
+                {
+                    goodjob = left();
+                }
+                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+                {
+                    goodjob = right();
                 }
 
                 if(!goodjob)
@@ -86,17 +96,327 @@ public class TzfePanel extends JFrame
                     return;
                 }
 
-                //TODO
+                //此时：要么移动好了，要么合并好了
+                next();
             }
         });
+    }
+
+    private boolean right()
+    {
+        boolean movinged = false;
+        boolean computinged[] = {false, false, false, false};
+        GridButton prev = null;
+        GridButton next = null;
+
+        for(int y = 0; y < 4; y++)
+        {
+            for(int x = 0; x < 4; x++)
+            {
+                int unreachable = y * 4;
+                for(int z = y * 4 + 3; z > unreachable; z--)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z - 1);
+                    if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        for(int y = 0; y < 4; y++)
+        {
+            for(int x = 0; x < 4; x++)
+            {
+                int unreachable = y * 4;
+                for(int z = y * 4 + 3; z > unreachable; z--)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z - 1);
+                    if(!computinged[y] && prev.getNumber() == prev.getNumber())
+                    {
+                        prev.setNumber(prev.getNumber() * 2);
+                        next.setNumber(0);
+                        computinged[y] = true;
+                        //一排全是相同数字的情况
+                        if(z - 1 - 1 - 1 <= unreachable && gridButtonMap.get(z - 1 - 1).getNumber() == gridButtonMap.get(z - 1 - 1 - 1).getNumber())
+                        {
+                            gridButtonMap.get(z - 1 - 1).setNumber(gridButtonMap.get(z - 1 - 1).getNumber() * 2);
+                            gridButtonMap.get(z - 1 - 1 - 1).setNumber(0);
+                        }
+                    }
+                    else if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        return movinged || computinged[0] || computinged[1] || computinged[2] || computinged[3];
+    }
+
+    private boolean left()
+    {
+        boolean movinged = false;
+        boolean computinged[] = {false, false, false, false};
+        GridButton prev = null;
+        GridButton next = null;
+
+        for(int y = 0; y < 4; y++)
+        {
+            for(int x = 0; x < 4; x++)
+            {
+                int unreachable = y * 4 + 3;
+                for(int z = y * 4; z < unreachable; z++)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z + 1);
+                    if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        for(int y = 0; y < 4; y++)
+        {
+            for(int x = 0; x < 4; x++)
+            {
+                int unreachable = y * 4 + 3;
+                for(int z = y * 4; z < unreachable; z++)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z + 1);
+                    if(!computinged[y] && prev.getNumber() == prev.getNumber())
+                    {
+                        prev.setNumber(prev.getNumber() * 2);
+                        next.setNumber(0);
+                        computinged[y] = true;
+                        //一排全是相同数字的情况
+                        if(z + 1 + 1 + 1 <= unreachable && gridButtonMap.get(z + 1 + 1).getNumber() == gridButtonMap.get(z + 1 + 1 + 1).getNumber())
+                        {
+                            gridButtonMap.get(z + 1 + 1).setNumber(gridButtonMap.get(z + 1 + 1).getNumber() * 2);
+                            gridButtonMap.get(z + 1 + 1 + 1).setNumber(0);
+                        }
+                    }
+                    else if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        return movinged || computinged[0] || computinged[1] || computinged[2] || computinged[3];
+    }
+
+    private boolean down()
+    {
+        boolean movinged = false;
+        boolean computinged[] = {false, false, false, false};
+        GridButton prev = null;
+        GridButton next = null;
+
+        for(int x = 0; x < 4; x++)
+        {
+            for(int y = 0; y < 4; y++)
+            {
+                int unreachable = x;
+                for(int z = 4 * 3 + x; z > unreachable; z = z - 4)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z - 4);
+                    if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        for(int x = 0; x < 4; x++)
+        {
+            for(int y = 0; y < 4; y++)
+            {
+                int unreachable = x;
+                for(int z = 4 * 3 + x; z > unreachable; z = z - 4)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z - 4);
+                    if(!computinged[x] && prev.getNumber() == prev.getNumber())
+                    {
+                        prev.setNumber(prev.getNumber() * 2);
+                        next.setNumber(0);
+                        computinged[x] = true;
+                        //一排全是相同数字的情况
+                        if(z - 4 - 4 - 4 >= unreachable && gridButtonMap.get(z - 4 - 4).getNumber() == gridButtonMap.get(z - 4 - 4 - 4).getNumber())
+                        {
+                            gridButtonMap.get(z - 4 - 4).setNumber(gridButtonMap.get(z - 4 - 4).getNumber() * 2);
+                            gridButtonMap.get(z - 4 - 4 - 4).setNumber(0);
+                        }
+                    }
+                    else if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        return movinged || computinged[0] || computinged[1] || computinged[2] || computinged[3];
     }
 
     private boolean up()
     {
         boolean movinged = false;
         boolean computinged[] = {false, false, false, false};
+        GridButton prev = null;
+        GridButton next = null;
+
+        for(int x = 0; x < 4; x++)
+        {
+            for(int y = 0; y < 4; y++)
+            {
+                int unreachable = 4 * 3 + x;
+                for(int z = 0; z < unreachable; z = z + 4)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z + 4);
+                    if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
+
+        for(int x = 0; x < 4; x++)
+        {
+            for(int y = 0; y < 4; y++)
+            {
+                int unreachable = 4 * 3 + x;
+                for(int z = 0; z < unreachable; z = z + 4)
+                {
+                    prev = gridButtonMap.get(z);
+                    next = gridButtonMap.get(z + 4);
+                    if(!computinged[x] && prev.getNumber() == prev.getNumber())
+                    {
+                        prev.setNumber(prev.getNumber() * 2);
+                        next.setNumber(0);
+                        computinged[x] = true;
+                        //一排全是相同数字的情况
+                        if(z + 4 + 4 + 4 <= unreachable && gridButtonMap.get(z + 4 + 4).getNumber() == gridButtonMap.get(z + 4 + 4 + 4).getNumber())
+                        {
+                            gridButtonMap.get(z + 4 + 4).setNumber(gridButtonMap.get(z + 4 + 4).getNumber() * 2);
+                            gridButtonMap.get(z + 4 + 4 + 4).setNumber(0);
+                        }
+                    }
+                    else if(prev.getNumber() == 0 && next.getNumber() != 0)
+                    {
+                        prev.setNumber(next.getNumber());
+                        next.setNumber(0);
+                        movinged = true;
+                    }
+                }
+            }
+
+        }
 
         return movinged || computinged[0] || computinged[1] || computinged[2] || computinged[3];
+    }
+
+    private void next()
+    {
+        roundGridButton().setNumber(NumCons.roundNum());    //随机
+        if(isGameover())
+        {
+            JOptionPane.showMessageDialog(TzfePanel.single(), "Gameover!");
+            reset();
+        }
+        SwingUtilities.updateComponentTreeUI(getContentPane());
+    }
+
+    private void reset()
+    {
+        for(int i = 0; i < 16; i++)
+        {
+            gridButtonMap.get(i).setNumber(0);
+        }
+    }
+
+    private boolean isGameover()
+    {
+        boolean hasFreeGrid = roundGridButton() == null ? false : true;
+
+        int currentLocation = 0;
+        int currentDown = 0;
+        int currentRight = 0;
+        int unreachableDown = 0;
+        int unreachableRight = 0;
+
+        GridButton prev = null;
+        GridButton next = null;
+
+        boolean hasSameGrid = false;
+
+        for(int x = 0; x < 4 && !hasSameGrid && !hasFreeGrid; x++)  //没有空的Grid同时没有找到相同Grid
+        {
+            unreachableDown = 4 * 3 + x;
+            for(int y = 0; y < 4; y++)
+            {
+                unreachableRight = y * 4 + 3;
+                currentLocation = x + y * 4;
+                currentDown = currentLocation + 4;
+                unreachableRight = currentLocation + 1;
+
+                prev = gridButtonMap.get(currentLocation);
+                if(currentDown <= unreachableDown)
+                {
+                    next = gridButtonMap.get(currentDown);
+                    if(prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
+                    {
+                        hasSameGrid = true;
+                        break;
+                    }
+                }
+                if(currentRight <= unreachableRight)
+                {
+                    next = gridButtonMap.get(currentRight);
+                    if(prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
+                    {
+                        hasSameGrid = true;
+                        break;
+                    }
+                }
+            }
+
+        }
+        return !(hasFreeGrid || hasSameGrid);
     }
 
     /**
@@ -148,9 +468,7 @@ public class TzfePanel extends JFrame
             add(gridButton);
             gridButtonMap.put(i, gridButton);
         }
-
-        roundGridButton().setNumber(NumCons.NUM_LIST.get(Math.abs(new Random().nextInt()) % NumCons.NUM_LIST.size()));
-        SwingUtilities.updateComponentTreeUI(getContentPane());
+        next();
     }
 
     private GridButton roundGridButton()
