@@ -6,10 +6,12 @@
  */
 package org.azolla.p.tzfe.startup;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.azolla.p.tzfe.panel.TzfePanel;
 
@@ -30,14 +32,31 @@ public class Startup
     public static void main(String[] args)
     {
         //do nothing
-        TzfePanel tzfePanel = TzfePanel.single();
-        tzfePanel.setTitle("2048");
-        tzfePanel.setSize(TzfePanel.W, TzfePanel.H);
+        SwingUtilities.invokeLater(new Runnable()
+        {
+
+            @Override
+            public void run()
+            {
+                //do nothing
+                createAndShowGUI();
+            }
+        });
+    }
+
+    private static void createAndShowGUI()
+    {
+        //do nothing
+        JFrame tzfeFrame = new JFrame();
+        tzfeFrame.setLayout(new BorderLayout());
+        tzfeFrame.add(TzfePanel.single(), BorderLayout.CENTER);
+        tzfeFrame.setTitle("2048");
+        tzfeFrame.setSize(TzfePanel.W, TzfePanel.H);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-        tzfePanel.setLocation((int) (screen.getWidth() - TzfePanel.W) / 2, (int) (screen.getHeight() - TzfePanel.H) / 2);
-        tzfePanel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        tzfePanel.setResizable(false);
-        tzfePanel.setVisible(true);
+        tzfeFrame.setLocation((int) (screen.getWidth() - TzfePanel.W) / 2, (int) (screen.getHeight() - TzfePanel.H) / 2);
+        tzfeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        tzfeFrame.setResizable(false);
+        tzfeFrame.setVisible(true);
     }
 
 }

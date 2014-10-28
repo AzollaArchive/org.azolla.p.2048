@@ -7,19 +7,21 @@
 package org.azolla.p.tzfe.panel;
 
 import java.awt.GridLayout;
-import java.awt.event.KeyAdapter;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
-import javax.swing.JFrame;
+import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.azolla.open.ling.util.Random0;
 import org.azolla.p.tzfe.cons.NumCons;
 import org.azolla.p.tzfe.model.GridButton;
 
@@ -32,7 +34,7 @@ import com.google.common.collect.Maps;
  * @author 	sk@azolla.org
  * @since 	ADK1.0
  */
-public class TzfePanel extends JFrame
+public class TzfePanel extends JPanel
 {
 
     /**
@@ -65,41 +67,138 @@ public class TzfePanel extends JFrame
      */
     private void initListener()
     {
-        //do nothing
-        addKeyListener(new KeyAdapter()
+        //not work on MAC
+        //        addKeyListener(new KeyAdapter()
+        //        {
+        //            @Override
+        //            public void keyPressed(KeyEvent e)
+        //            {
+        //                System.out.println("org.azolla.p.tzfe.panel.TzfePanel.initListener().new KeyAdapter() {...}.keyPressed(KeyEvent)");
+        //                //do nothing
+        //                boolean goodjob = false;
+        //                //do nothing
+        //                if(e.getKeyCode() == KeyEvent.VK_UP)
+        //                {
+        //                    goodjob = up();
+        //                }
+        //                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
+        //                {
+        //                    goodjob = down();
+        //                }
+        //                else if(e.getKeyCode() == KeyEvent.VK_LEFT)
+        //                {
+        //                    goodjob = left();
+        //                }
+        //                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+        //                {
+        //                    goodjob = right();
+        //                }
+        //
+        //                if(!goodjob)
+        //                {
+        //                    return;
+        //                }
+        //
+        //                //此时：要么移动好了，要么合并好了
+        //                next();
+        //            }
+        //        });
+
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "VK_UP");
+        getActionMap().put("VK_UP", new AbstractAction()
         {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = 4819502628024769956L;
+
             @Override
-            public void keyPressed(KeyEvent e)
+            public void actionPerformed(ActionEvent e)
             {
                 //do nothing
-                boolean goodjob = false;
-                //do nothing
-                if(e.getKeyCode() == KeyEvent.VK_UP)
-                {
-                    goodjob = up();
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_DOWN)
-                {
-                    goodjob = down();
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_LEFT)
-                {
-                    goodjob = left();
-                }
-                else if(e.getKeyCode() == KeyEvent.VK_RIGHT)
-                {
-                    goodjob = right();
-                }
-
-                if(!goodjob)
-                {
-                    return;
-                }
-
-                //此时：要么移动好了，要么合并好了
-                next();
+                doAction(KeyEvent.VK_UP);
             }
         });
+
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "VK_DOWN");
+        getActionMap().put("VK_DOWN", new AbstractAction()
+        {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = -6424658478553779272L;
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                //do nothing
+                doAction(KeyEvent.VK_DOWN);
+            }
+        });
+
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "VK_LEFT");
+        getActionMap().put("VK_LEFT", new AbstractAction()
+        {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = -27041905896290458L;
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                //do nothing
+                doAction(KeyEvent.VK_LEFT);
+            }
+        });
+
+        getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "VK_RIGHT");
+        getActionMap().put("VK_RIGHT", new AbstractAction()
+        {
+            /**
+             * 
+             */
+            private static final long serialVersionUID = -1474793824803787971L;
+
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                //do nothing
+                doAction(KeyEvent.VK_RIGHT);
+            }
+        });
+
+    }
+
+    private void doAction(int key)
+    {
+        //do nothing
+        boolean goodjob = false;
+        //do nothing
+        if(key == KeyEvent.VK_UP)
+        {
+            goodjob = up();
+        }
+        else if(key == KeyEvent.VK_DOWN)
+        {
+            goodjob = down();
+        }
+        else if(key == KeyEvent.VK_LEFT)
+        {
+            goodjob = left();
+        }
+        else if(key == KeyEvent.VK_RIGHT)
+        {
+            goodjob = right();
+        }
+
+        if(!goodjob)
+        {
+            return;
+        }
+
+        //此时：要么移动好了，要么合并好了
+        next();
     }
 
     private boolean right()
@@ -118,36 +217,21 @@ public class TzfePanel extends JFrame
                 {
                     prev = gridButtonMap.get(z);
                     next = gridButtonMap.get(z - 1);
-                    if(prev.getNumber() == 0 && next.getNumber() != 0)
-                    {
-                        prev.setNumber(next.getNumber());
-                        next.setNumber(0);
-                        movinged = true;
-                    }
-                }
-            }
-
-        }
-
-        for(int y = 0; y < 4; y++)
-        {
-            for(int x = 0; x < 4; x++)
-            {
-                int unreachable = y * 4;
-                for(int z = y * 4 + 3; z > unreachable; z--)
-                {
-                    prev = gridButtonMap.get(z);
-                    next = gridButtonMap.get(z - 1);
-                    if(!computinged[y] && prev.getNumber() == prev.getNumber())
+                    if(!computinged[y] && prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
                     {
                         prev.setNumber(prev.getNumber() * 2);
                         next.setNumber(0);
                         computinged[y] = true;
                         //一排全是相同数字的情况
-                        if(z - 1 - 1 - 1 <= unreachable && gridButtonMap.get(z - 1 - 1).getNumber() == gridButtonMap.get(z - 1 - 1 - 1).getNumber())
+                        if(z - 1 - 1 - 1 >= unreachable)
                         {
-                            gridButtonMap.get(z - 1 - 1).setNumber(gridButtonMap.get(z - 1 - 1).getNumber() * 2);
-                            gridButtonMap.get(z - 1 - 1 - 1).setNumber(0);
+                            prev = gridButtonMap.get(z - 1 - 1);
+                            next = gridButtonMap.get(z - 1 - 1 - 1);
+                            if(prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
+                            {
+                                prev.setNumber(prev.getNumber() * 2);
+                                next.setNumber(0);
+                            }
                         }
                     }
                     else if(prev.getNumber() == 0 && next.getNumber() != 0)
@@ -180,36 +264,21 @@ public class TzfePanel extends JFrame
                 {
                     prev = gridButtonMap.get(z);
                     next = gridButtonMap.get(z + 1);
-                    if(prev.getNumber() == 0 && next.getNumber() != 0)
-                    {
-                        prev.setNumber(next.getNumber());
-                        next.setNumber(0);
-                        movinged = true;
-                    }
-                }
-            }
-
-        }
-
-        for(int y = 0; y < 4; y++)
-        {
-            for(int x = 0; x < 4; x++)
-            {
-                int unreachable = y * 4 + 3;
-                for(int z = y * 4; z < unreachable; z++)
-                {
-                    prev = gridButtonMap.get(z);
-                    next = gridButtonMap.get(z + 1);
-                    if(!computinged[y] && prev.getNumber() == prev.getNumber())
+                    if(!computinged[y] && prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
                     {
                         prev.setNumber(prev.getNumber() * 2);
                         next.setNumber(0);
                         computinged[y] = true;
                         //一排全是相同数字的情况
-                        if(z + 1 + 1 + 1 <= unreachable && gridButtonMap.get(z + 1 + 1).getNumber() == gridButtonMap.get(z + 1 + 1 + 1).getNumber())
+                        if(z + 1 + 1 + 1 <= unreachable)
                         {
-                            gridButtonMap.get(z + 1 + 1).setNumber(gridButtonMap.get(z + 1 + 1).getNumber() * 2);
-                            gridButtonMap.get(z + 1 + 1 + 1).setNumber(0);
+                            prev = gridButtonMap.get(z + 1 + 1);
+                            next = gridButtonMap.get(z + 1 + 1 + 1);
+                            if(prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
+                            {
+                                prev.setNumber(prev.getNumber() * 2);
+                                next.setNumber(0);
+                            }
                         }
                     }
                     else if(prev.getNumber() == 0 && next.getNumber() != 0)
@@ -242,36 +311,21 @@ public class TzfePanel extends JFrame
                 {
                     prev = gridButtonMap.get(z);
                     next = gridButtonMap.get(z - 4);
-                    if(prev.getNumber() == 0 && next.getNumber() != 0)
-                    {
-                        prev.setNumber(next.getNumber());
-                        next.setNumber(0);
-                        movinged = true;
-                    }
-                }
-            }
-
-        }
-
-        for(int x = 0; x < 4; x++)
-        {
-            for(int y = 0; y < 4; y++)
-            {
-                int unreachable = x;
-                for(int z = 4 * 3 + x; z > unreachable; z = z - 4)
-                {
-                    prev = gridButtonMap.get(z);
-                    next = gridButtonMap.get(z - 4);
-                    if(!computinged[x] && prev.getNumber() == prev.getNumber())
+                    if(!computinged[x] && prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
                     {
                         prev.setNumber(prev.getNumber() * 2);
                         next.setNumber(0);
                         computinged[x] = true;
                         //一排全是相同数字的情况
-                        if(z - 4 - 4 - 4 >= unreachable && gridButtonMap.get(z - 4 - 4).getNumber() == gridButtonMap.get(z - 4 - 4 - 4).getNumber())
+                        if(z - 4 - 4 - 4 >= unreachable)
                         {
-                            gridButtonMap.get(z - 4 - 4).setNumber(gridButtonMap.get(z - 4 - 4).getNumber() * 2);
-                            gridButtonMap.get(z - 4 - 4 - 4).setNumber(0);
+                            prev = gridButtonMap.get(z - 4 - 4);
+                            next = gridButtonMap.get(z - 4 - 4 - 4);
+                            if(prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
+                            {
+                                prev.setNumber(prev.getNumber() * 2);
+                                next.setNumber(0);
+                            }
                         }
                     }
                     else if(prev.getNumber() == 0 && next.getNumber() != 0)
@@ -300,40 +354,25 @@ public class TzfePanel extends JFrame
             for(int y = 0; y < 4; y++)
             {
                 int unreachable = 4 * 3 + x;
-                for(int z = 0; z < unreachable; z = z + 4)
+                for(int z = x; z < unreachable; z = z + 4)
                 {
                     prev = gridButtonMap.get(z);
                     next = gridButtonMap.get(z + 4);
-                    if(prev.getNumber() == 0 && next.getNumber() != 0)
-                    {
-                        prev.setNumber(next.getNumber());
-                        next.setNumber(0);
-                        movinged = true;
-                    }
-                }
-            }
-
-        }
-
-        for(int x = 0; x < 4; x++)
-        {
-            for(int y = 0; y < 4; y++)
-            {
-                int unreachable = 4 * 3 + x;
-                for(int z = 0; z < unreachable; z = z + 4)
-                {
-                    prev = gridButtonMap.get(z);
-                    next = gridButtonMap.get(z + 4);
-                    if(!computinged[x] && prev.getNumber() == prev.getNumber())
+                    if(!computinged[x] && prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
                     {
                         prev.setNumber(prev.getNumber() * 2);
                         next.setNumber(0);
                         computinged[x] = true;
                         //一排全是相同数字的情况
-                        if(z + 4 + 4 + 4 <= unreachable && gridButtonMap.get(z + 4 + 4).getNumber() == gridButtonMap.get(z + 4 + 4 + 4).getNumber())
+                        if(z + 4 + 4 + 4 <= unreachable)
                         {
-                            gridButtonMap.get(z + 4 + 4).setNumber(gridButtonMap.get(z + 4 + 4).getNumber() * 2);
-                            gridButtonMap.get(z + 4 + 4 + 4).setNumber(0);
+                            prev = gridButtonMap.get(z + 4 + 4);
+                            next = gridButtonMap.get(z + 4 + 4 + 4);
+                            if(prev.getNumber() != 0 && prev.getNumber() == next.getNumber())
+                            {
+                                prev.setNumber(prev.getNumber() * 2);
+                                next.setNumber(0);
+                            }
                         }
                     }
                     else if(prev.getNumber() == 0 && next.getNumber() != 0)
@@ -353,12 +392,12 @@ public class TzfePanel extends JFrame
     private void next()
     {
         roundGridButton().setNumber(NumCons.roundNum());    //随机
+        SwingUtilities.updateComponentTreeUI(this);
         if(isGameover())
         {
             JOptionPane.showMessageDialog(TzfePanel.single(), "Gameover!");
             reset();
         }
-        SwingUtilities.updateComponentTreeUI(getContentPane());
     }
 
     private void reset()
@@ -367,6 +406,7 @@ public class TzfePanel extends JFrame
         {
             gridButtonMap.get(i).setNumber(0);
         }
+        next();
     }
 
     private boolean isGameover()
@@ -392,7 +432,7 @@ public class TzfePanel extends JFrame
                 unreachableRight = y * 4 + 3;
                 currentLocation = x + y * 4;
                 currentDown = currentLocation + 4;
-                unreachableRight = currentLocation + 1;
+                currentRight = currentLocation + 1;
 
                 prev = gridButtonMap.get(currentLocation);
                 if(currentDown <= unreachableDown)
@@ -464,7 +504,7 @@ public class TzfePanel extends JFrame
         GridButton gridButton;
         for(int i = 0; i < 16; i++)
         {
-            gridButton = new GridButton(i / 4, i % 4);
+            gridButton = new GridButton(i % 4, i / 4);
             add(gridButton);
             gridButtonMap.put(i, gridButton);
         }
@@ -486,7 +526,7 @@ public class TzfePanel extends JFrame
         gridButton = null;
         if(freeGridButtonList.size() > 0)
         {
-            gridButton = freeGridButtonList.get(Math.abs(new Random().nextInt()) % freeGridButtonList.size());
+            gridButton = freeGridButtonList.get(Random0.nextRangeInt(freeGridButtonList.size()));
         }
         return gridButton;
     }
