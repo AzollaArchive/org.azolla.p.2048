@@ -51,7 +51,7 @@ public class GridButton extends JButton
         super();
         this.xValue = xValue;
         this.yValue = yVlaue;
-        number = 0;
+        setNumber(0);
         setOpaque(true);    //MAC
         setBorderPainted(false);    //MAC
     }
@@ -107,6 +107,9 @@ public class GridButton extends JButton
     public void setNumber(int number)
     {
         this.number = number;
+        setText("" + (0 == number ? "" : number));
+        setFont(new Font("Courier New", Font.BOLD, 56 - (String.valueOf(number).length() * 8)));
+        setBackground(ColorCons.COLOR_MAP.get(number));
     }
 
     /**
@@ -149,17 +152,4 @@ public class GridButton extends JButton
         this.yValue = yValue;
     }
 
-    /**
-     * @see javax.swing.AbstractButton#getText()
-     * @return
-     */
-    @Override
-    public String getText()
-    {
-        //        setEnabled(0 == number ? false : true);
-        setBackground(ColorCons.COLOR_MAP.get(number));
-        //        setForeground(ColorCons.COLOR_MAP.get(number));
-        setFont(new Font("Courier New", Font.BOLD, 56 - (String.valueOf(number).length() * 8)));
-        return "" + (0 == number ? "" : number);
-    }
 }

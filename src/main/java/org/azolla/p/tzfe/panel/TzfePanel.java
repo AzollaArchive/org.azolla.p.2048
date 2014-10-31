@@ -6,6 +6,7 @@
  */
 package org.azolla.p.tzfe.panel;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -500,6 +501,7 @@ public class TzfePanel extends JPanel
     {
         //do nothing
         setLayout(new GridLayout(4, 4, 3, 3));
+        setBackground(new Color(192, 192, 192, 192));
 
         GridButton gridButton;
         for(int i = 0; i < 16; i++)
