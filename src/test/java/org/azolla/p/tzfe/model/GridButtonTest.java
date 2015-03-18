@@ -10,7 +10,7 @@ import static org.junit.Assert.fail;
 
 import java.awt.GraphicsEnvironment;
 
-import org.azolla.open.ling.util.Array0;
+import org.azolla.l.ling.util.Array0;
 
 /**
  * The coder is very lazy for this GridButtonTest class

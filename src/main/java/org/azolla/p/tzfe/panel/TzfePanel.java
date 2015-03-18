@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
-import org.azolla.open.ling.util.Random0;
+import org.azolla.l.ling.util.Random0;
 import org.azolla.p.tzfe.cons.NumCons;
 import org.azolla.p.tzfe.model.GridButton;
 

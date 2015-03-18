@@ -8,7 +8,7 @@ package org.azolla.p.tzfe.cons;
 
 import java.util.List;
 
-import org.azolla.open.ling.util.Random0;
+import org.azolla.l.ling.util.Random0;
 
 import com.google.common.collect.Lists;
 
