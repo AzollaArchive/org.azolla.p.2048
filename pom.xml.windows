@@ -9,9 +9,9 @@
 	</parent>
 
 	<artifactId>org.azolla.p.2048</artifactId>
-    <!--<version>1.0.5.1</version>-->
+    <version>1.0.5.1</version>
 	<!--<packaging>jar</packaging>-->
-	<name>2048 Game</name>
+	<name>2048: Game</name>
 	<description>2048 is a game.</description>
 	<url>https://github.com/Azollas/org.azolla.p.2048</url>
 	<inceptionYear>2011</inceptionYear>
@@ -143,18 +143,64 @@
                     </archive>
                 </configuration>
             </plugin>
-            <plugin><!--mvn package appbundle:bundle-->
-                <groupId>sh.tak.appbundler</groupId>
-                <artifactId>appbundle-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.azolla.p.tzfe.startup.Startup</mainClass>
-                </configuration>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>bundle</goal>
+                            <goal>shade</goal>
                         </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shadedArtifactAttached>true</shadedArtifactAttached>
+                    <shadedClassifierName>shaded</shadedClassifierName>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>org.azolla.p.tzfe.startup.Startup</mainClass>
+                        </transformer>
+                    </transformers>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.akathist.maven.plugins.launch4j</groupId>
+                <artifactId>launch4j-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>l4j-clui</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>launch4j</goal>
+                        </goals>
+                        <configuration>
+                            <headerType>gui</headerType>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
+                            <outfile>${project.build.directory}/${project.artifactId}-${project.version}.exe</outfile>
+                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <classPath>
+                                <mainClass>org.azolla.p.tzfe.startup.Startup</mainClass>
+                                <preCp>anything</preCp>
+                            </classPath>
+                            <icon>src/main/resources/img/favicon.png</icon>
+                            <jre>
+                                <minVersion>1.8.0</minVersion>
+                                <jdkPreference>preferJre</jdkPreference>
+                            </jre>
+                            <versionInfo>
+                                <fileVersion>${project.version}</fileVersion>
+                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileDescription>${project.name}</fileDescription>
+                                <copyright>2048.azolla.org</copyright>
+                                <productVersion>${project.version}</productVersion>
+                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productName>${project.name}</productName>
+                                <companyName>2048.azolla.org</companyName>
+                                <internalName>${project.artifactId}</internalName>
+                                <originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
+                            </versionInfo>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
