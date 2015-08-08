@@ -50,7 +50,7 @@ public class Startup
         JFrame tzfeFrame = new JFrame();
         tzfeFrame.setLayout(new BorderLayout());
         tzfeFrame.add(TzfePanel.single(), BorderLayout.CENTER);
-        tzfeFrame.setTitle("2048 Ver1.0.0");
+        tzfeFrame.setTitle("2048 Ver1.0.5.1");
         tzfeFrame.setSize(TzfePanel.W, TzfePanel.H);
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         tzfeFrame.setLocation((int) (screen.getWidth() - TzfePanel.W) / 2, (int) (screen.getHeight() - TzfePanel.H) / 2);

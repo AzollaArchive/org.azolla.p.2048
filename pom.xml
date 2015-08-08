@@ -9,7 +9,7 @@
 	</parent>
 
 	<artifactId>org.azolla.p.2048</artifactId>
-    <!--<version>1.0.5.1</version>-->
+    <version>1.0.5.1</version>
 	<!--<packaging>jar</packaging>-->
 	<name>2048 Game</name>
 	<description>2048 is a game.</description>
