@@ -11,8 +11,8 @@
 	<artifactId>org.azolla.p.2048</artifactId>
     <!--<version>1.0.6</version>-->
 	<!--<packaging>jar</packaging>-->
-	<name>2048 Game</name>
-	<description>2048 is a game.</description>
+	<name>Azolla.org 2048 Game</name>
+	<description>Azolla.org 2048 Game</description>
 	<url>https://github.com/Azollas/org.azolla.p.2048</url>
 	<inceptionYear>2011</inceptionYear>
 	<organization>
