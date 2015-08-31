@@ -11,6 +11,7 @@ import org.azolla.l.ling.cfg.PropCfg;
 import org.azolla.l.ling.util.Log0;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * The coder is very lazy, nothing to write for this class
@@ -20,40 +21,10 @@ import java.util.Map;
  */
 public class I18N
 {
-    public static PropCfg propCfg = null;
-
-    public static Map<String, String> propMap = Maps.newHashMap();
-
-    static
-    {
-        try
-        {
-            PropCfg.cfg("/i18n.Azolla.Cfg.properties");
-        }
-        catch (Exception e)
-        {
-            Log0.error(I18N.class, e.toString(), e);
-        }
-        propMap.put("title", "2048 Ver1.0.9");
-    }
+    public static PropCfg propCfg = PropCfg.cfg("i18n.2048.p.Azolla.Cfg.properties");;
 
     public static String get(String key)
     {
-        try
-        {
-            return propCfg.get(key);
-        }
-        catch (Exception e)
-        {
-            return propMap.get(key);
-        }
-    }
-
-    public static void main(String[] args)
-    {
-        for(Map.Entry<String, String> entry : propMap.entrySet())
-        {
-            System.out.println(entry.getKey()+"="+entry.getValue());
-        }
+        return propCfg.get(key);
     }
 }
