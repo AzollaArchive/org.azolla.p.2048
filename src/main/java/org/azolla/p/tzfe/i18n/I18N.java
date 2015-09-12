@@ -21,7 +21,7 @@ import java.util.ResourceBundle;
  */
 public class I18N
 {
-    public static PropCfg propCfg = PropCfg.cfg("i18n.2048.p.Azolla.Cfg.properties");;
+    public static PropCfg propCfg = PropCfg.cfg("i18n.2048.p.Azolla.properties");;
 
     public static String get(String key)
     {
