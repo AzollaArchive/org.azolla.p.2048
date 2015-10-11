@@ -6,15 +6,12 @@
  */
 package org.azolla.p.tzfe.startup;
 
-import org.azolla.l.ling.cfg.PropCfg;
+import org.azolla.l.ling.i18n.I18N0;
 import org.azolla.l.ling.util.Log0;
-import org.azolla.p.tzfe.i18n.I18N;
 import org.azolla.p.tzfe.panel.TzfePanel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Properties;
-import java.util.ResourceBundle;
 
 /**
  * The coder is very lazy for this Startup class
@@ -46,7 +43,7 @@ public class Startup
 
     private static void createAndShowGUI()
     {
-        Log0.info(Startup.class,"2048 starting...");
+        Log0.info(Startup.class, "2048 starting...");
         //do nothing
         JFrame tzfeFrame = new JFrame();
         tzfeFrame.setLayout(new BorderLayout());
@@ -58,12 +55,12 @@ public class Startup
         tzfeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tzfeFrame.setResizable(false);
         tzfeFrame.setVisible(true);
-        Log0.info(Startup.class,"2048 started");
+        Log0.info(Startup.class, "2048 started");
     }
 
     public static String getTitle()
     {
-        return I18N.get("artifact") + " - " + I18N.get("version");
+        return I18N0.i18n(Startup.class).get("artifact") + " - " + I18N0.i18n(Startup.class).get("version");
     }
 
 }
